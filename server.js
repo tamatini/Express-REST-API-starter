@@ -1,9 +1,11 @@
 const app = require("./app");
 const server = require("./src/db/index");
+const config = require('./config');
 
-const PORT = 5000;
-const HOST = "127.0.0.1";
-const db = "mongodb://localhost:27017/test"
+const PORT = config.express.config.port;
+const HOST = config.express.config.host;
+const db = config.mongodb.config.uri;
+const options = config.mongodb.options;
 
 const listen = app.listen(PORT, HOST, function () {
     const msg = `Application is running on ${HOST}:${PORT}/api/v1`;
@@ -11,13 +13,9 @@ const listen = app.listen(PORT, HOST, function () {
   });
 
 function main() {
-  try {
-    server.connect(db, function () {
-      listen();
-    });
-  } catch (err) {
-    if (err) return console.log(err);
-  }
+  server.connect(db, options, function () {
+    listen;
+  });
 };
 
 if (require.main === module) {

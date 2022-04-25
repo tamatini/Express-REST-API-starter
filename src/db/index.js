@@ -1,39 +1,27 @@
 const mongoose = require("mongoose");
 
-function connect(db) {
-  try {
-    mongoose.connect(db, function () {
-      const msg = "Connected to database";
-      console.log(msg);
-    });
-  } catch (err) {
-    if (err) return console.log(err);
-  };
+function connect(db, options) {
+  mongoose.connect(db, options, function () {
+    const msg = `Connected to database ${options.dbName}`;
+    console.log(msg);
+  });
 };
 
 function close() {
-  try {
-    mongoose.disconnect(function() {
-      const msg = "Disconnected from database";
-      console.log(msg);
-    })
-  } catch (err) {
-    if (err) return console.log(err);
-  };
+  mongoose.disconnect(function() {
+    const msg = `Disconnected from database`;
+    console.log(msg);
+  })
 };
 
 function clearDatabase() {
-  try {
-    const collections = mongoose.connection.collections;
-    for (let key in collections) {
-      const collection = collections[key];
-      collection.deleteMany(null, null, function(err) {
-        if (err) return console.log(err);
-      })
-    }
-  } catch (err) {
-    if (err) return console.log(err);
-  };
+  const collections = mongoose.connection.collections;
+  for (let key in collections) {
+    const collection = collections[key];
+    collection.deleteMany(null, null, function(err) {
+      if (err) return console.log(err);
+    })
+  }
 };
 
 module.exports = {
