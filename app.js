@@ -4,7 +4,7 @@ const express = require("express");
 const route = require("./src/routes/index");
 const Cors = require("cors");
 const morgan = require("morgan");
-const config = require("./config");
+const config = require("./src/Config/Config");
 const app = express();
 
 // Configurations
